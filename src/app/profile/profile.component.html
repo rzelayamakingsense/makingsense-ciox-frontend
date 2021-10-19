@@ -1,0 +1,31 @@
+<div class="card">
+  <div class="card-body">
+    <p>
+      Below is the information from your ID Token which was obtained during the
+      <a href="https://developer.okta.com/docs/guides/implement-auth-code-pkce">PKCE Flow</a>
+      and is now stored in local storage.
+    </p>
+    <p>
+      This route is protected with the <code>OktaAuthGuard</code> component, which will ensure that this page cannot be
+      accessed until you have authenticated.
+    </p>
+    <table>
+      <thead>
+        <tr>
+          <th>Claim</th>
+          <th>Value</th>
+        </tr>
+      </thead>
+      <tbody>
+        <ng-container *ngFor="let claim of claims">
+          <tr>
+            <td>{{claim.name}}</td>
+            <td id="claim-{{claim.name}}">{{claim.value}}</td>
+          </tr>
+        </ng-container>
+
+      </tbody>
+    </table>
+
+  </div>
+</div>
