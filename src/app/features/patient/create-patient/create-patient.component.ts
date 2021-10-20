@@ -16,8 +16,7 @@ export class CreatePatientComponent implements OnInit {
 
   onSubmit() {
     this.service.createPatient(this.form.value).subscribe((data: any) => {
-      console.log(data);
-      if (data != null && data > 0) {
+      if (data != null) {
         this.event.emit("created");
         this.bsModalRef.hide();
       }

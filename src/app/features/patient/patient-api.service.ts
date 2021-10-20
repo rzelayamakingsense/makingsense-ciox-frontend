@@ -24,10 +24,9 @@ export class PatientApiService {
   }
 
   createPatient(item: Patient) {
+    const data = { FisrtName: item.firstName, lastName: item.lastName };
     return this.http
-      .post(this.url + "/patient", {
-        ...Patient.transform(item),
-      })
+      .post(this.url + "/patient", data)
       .pipe(map((data) => Patient.new(data)));
   }
 
