@@ -1,5 +1,6 @@
 import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
@@ -17,6 +18,7 @@ import { CommonModule } from "@angular/common";
 import { SharedModule } from "./shared/shared.module";
 import { OktaAuthInterceptor } from "./core/interceptors/okta-auth.interceptor";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { NgxSpinnerModule } from "ngx-spinner";
 
 const oktaConfig = Object.assign(
   {
@@ -40,6 +42,8 @@ const oktaAuth = new OktaAuth(oktaConfig);
     ReactiveFormsModule,
 
     OktaAuthModule,
+    NgxSpinnerModule,
+    BrowserAnimationsModule,
     SharedModule.forRoot(),
   ],
   providers: [
@@ -52,4 +56,4 @@ const oktaAuth = new OktaAuth(oktaConfig);
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }

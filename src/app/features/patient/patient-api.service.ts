@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { environment } from "../../../environments/environment";
 import { catchError, map, tap } from "rxjs/operators";
@@ -6,6 +6,7 @@ import { catchError, map, tap } from "rxjs/operators";
 import { Patient } from "../../shared/models/patient";
 import { PatientsApi } from "../../shared/models/api";
 import { throwError } from "rxjs";
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Injectable({
   providedIn: "root",
@@ -21,60 +22,72 @@ export class PatientApiService {
     params = params.append('pageNumber', pageNumber);
     params = params.append('pageSize', pageSize);
 
+    this.spinner.show();
+
     return this.http
       .get<PatientsApi>(this.url + "/patient", { params })
-      .pipe(map((item) => {
-        var data = PatientsApi.new(item);
-        data.pageNumber = item.pageNumber;
+      .pipe(
+        map((item) => {
+          var data = PatientsApi.new(item);
 
-        // data.pageSize = item.pageSize; // TODO: uncomment line -> CIOX-51
-        data.pageSize = pageSize; // TODO: remove line -> CIOX-51
+          data.pageNumber = item.pageNumber;
 
-        // data.totalResults = item.totalResults; // TODO: uncomment line -> CIOX-51
-        data.totalResults = 50; // TODO: remove line -> CIOX-51
+          // data.pageSize = item.pageSize; // TODO: uncomment line -> CIOX-51
+          data.pageSize = pageSize; // TODO: remove line -> CIOX-51
 
-        return data;
-      }), catchError(err => {
-        alert(err.message);
-        return throwError(err);
-      }));
+          // data.totalResults = item.totalResults; // TODO: uncomment line -> CIOX-51
+          data.totalResults = 50; // TODO: remove line -> CIOX-51
+
+          return data;
+        }),
+        tap(() => this.spinner.hide()),
+        catchError(err => {
+          this.spinner.hide();
+          alert(err.message);
+          return throwError(err);
+        }));
   }
 
-  // getPatientList() {
-  //   return this.http
-  //     .get<PatientsApi>(this.url + "/patient", {
-  //       headers: new HttpHeaders({ Prefer: "code=200, dynamic=true" }),
-  //     })
-  //     .pipe(tap((data) => console.log("data => ", data)))
-  //     .pipe(map((item) => PatientsApi.new(item)));
-  // }
-
   createPatient(item: Patient) {
+    this.spinner.show();
     return this.http.post(this.url + "/patient", item)
-      .pipe(map((data) => Patient.new(data)),
+      .pipe(
+        map((data) => Patient.new(data)),
+        tap(() => this.spinner.hide()),
         catchError(err => {
+          this.spinner.hide();
           alert(err.message);
           return throwError(err);
         }));
   }
 
   updatePatient(item: Patient) {
+    this.spinner.show();
     return this.http.put(this.url + "/patient/" + item.id, Patient.transform(item))
-      .pipe(map((item) => Patient.new(item)),
+      .pipe(
+        map((item) => Patient.new(item)),
+        tap(() => this.spinner.hide()),
         catchError(err => {
+          this.spinner.hide();
           alert(err.message);
           return throwError(err);
         }));
   }
 
   deletePatient(item: Patient) {
+    this.spinner.show();
     return this.http.delete(this.url + "/patient/" + item.id)
       .pipe(
+        tap(() => this.spinner.hide()),
         catchError(err => {
+          this.spinner.hide();
           alert(err.message);
           return throwError(err);
         }));
   }
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private spinner: NgxSpinnerService
+  ) { }
 }
