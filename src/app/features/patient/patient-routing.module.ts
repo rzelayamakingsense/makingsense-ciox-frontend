@@ -5,7 +5,12 @@ import { PatientListComponent } from './patient-list/patient-list.component';
 
 const routes: Routes = [
   {
-    path: "list",
+    path: 'list',
+    component: PatientListComponent,
+    canActivate: [OktaAuthGuard]
+  },
+  {
+    path: "list/:id",
     component: PatientListComponent,
     canActivate: [OktaAuthGuard]
   }

@@ -14,13 +14,13 @@ import { Router } from "@angular/router";
 
 import sampleConfig from "./app.config";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
-import { CommonModule } from "@angular/common";
 import { SharedModule } from "./shared/shared.module";
 import { OktaAuthInterceptor } from "./core/interceptors/okta-auth.interceptor";
 import { OktaMockInterceptor } from "./core/interceptors/okta-mock.interceptor";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { NgxSpinnerModule } from "ngx-spinner";
 import { ToastrModule } from "ngx-toastr";
+import { CommonModule } from "@angular/common";
 
 const oktaConfig = Object.assign(
   {
@@ -36,8 +36,8 @@ const oktaAuth = new OktaAuth(oktaConfig);
 @NgModule({
   declarations: [AppComponent, AuthLayoutComponent, DashboardLayoutComponent],
   imports: [
-    CommonModule,
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
@@ -50,16 +50,11 @@ const oktaAuth = new OktaAuth(oktaConfig);
         preventDuplicates: true
       }
     ),
-    BrowserAnimationsModule,
-    SharedModule.forRoot(),
+
+    SharedModule,
   ],
   providers: [
     { provide: OKTA_CONFIG, useValue: { oktaAuth } },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: OktaAuthInterceptor,
-      multi: true,
-    },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: OktaMockInterceptor,

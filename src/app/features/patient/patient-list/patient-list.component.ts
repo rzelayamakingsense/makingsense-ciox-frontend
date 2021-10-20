@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, TemplateRef } from "@angular/core";
 import { Patient } from "../.../../../../shared/models/patient";
 import { PatientApiService } from "../patient-api.service";
 import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
@@ -7,6 +7,7 @@ import { UpdatePatientComponent } from "../update-patient/update-patient.compone
 import { DeletePatientComponent } from "../delete-patient/delete-patient.component";
 import { ActivatedRoute, Router } from "@angular/router";
 import { PageChangedEvent } from "ngx-bootstrap/pagination";
+import { PatientUserInfoComponent } from "../components/patient-user-info/patient-user-info.component";
 
 @Component({
   selector: "app-patient-list",
@@ -65,6 +66,18 @@ export class PatientListComponent implements OnInit {
         this.getPatientList();
       }
     });
+  }
+
+  view(patient: Patient) {
+    this.router.navigateByUrl('/patient/list/' + patient.id)
+    this.service.getPatient(patient).subscribe((data) => {
+
+      this.bsModalRef = this.bsModalService.show(PatientUserInfoComponent);
+      this.bsModalRef.content.patient = data;
+      // this.bsModalService.onHide.subscribe(() => {
+      //   this.router.navigateByUrl('/patient/list')
+      // })
+    })
   }
 
   pageChanged(event: PageChangedEvent): void {

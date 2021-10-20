@@ -1,27 +1,24 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
+import { HttpClientModule } from "@angular/common/http";
 import { RouterModule } from "@angular/router";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
-import { SharedFacade } from "./shared.facade";
+import { SharedPipesModule } from './pipes.module'
+
+const SHARED_MODULE = [
+  CommonModule,
+  FormsModule,
+  ReactiveFormsModule,
+  RouterModule,
+  HttpClientModule,
+
+  SharedPipesModule
+];
 
 @NgModule({
   declarations: [],
-  imports: [
-    CommonModule,
-    HttpClientModule,
-    RouterModule,
-    FormsModule,
-    ReactiveFormsModule,
-  ],
-  exports: [],
+  imports: [...SHARED_MODULE],
+  exports: [...SHARED_MODULE],
 })
-export class SharedModule {
-  static forRoot() {
-    return {
-      ngModule: SharedModule,
-      providers: [SharedFacade],
-    };
-  }
-}
+export class SharedModule { }

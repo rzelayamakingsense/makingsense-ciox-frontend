@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 
 import { BsModalRef } from "ngx-bootstrap/modal";
 import { Patient } from "src/app/shared/models/patient";
+import { PatientGenderEnum } from "../enums/patient";
 
 import { PatientApiService } from "../patient-api.service";
 
@@ -22,6 +23,9 @@ export class UpdatePatientComponent implements OnInit {
       id: ["", Validators.required],
       firstName: ["", Validators.required],
       lastName: ["", Validators.required],
+      isActive: [false],
+      birthdate: ["", Validators.required],
+      gender: []
     });
   }
 
@@ -30,6 +34,9 @@ export class UpdatePatientComponent implements OnInit {
     this.form.get("id")?.setValue(value.id);
     this.form.get("firstName")?.setValue(value.firstName);
     this.form.get("lastName")?.setValue(value.lastName);
+    this.form.get("isActive")?.setValue(value.isActive);
+    this.form.get("birthdate")?.setValue(value.birthDate);
+    this.form.get("gender")?.setValue(value.gender);
   }
 
   get patient() {
@@ -47,6 +54,10 @@ export class UpdatePatientComponent implements OnInit {
 
   onClose() {
     this.bsModalRef.hide();
+  }
+
+  get PatientGender() {
+    return PatientGenderEnum
   }
 
   constructor(

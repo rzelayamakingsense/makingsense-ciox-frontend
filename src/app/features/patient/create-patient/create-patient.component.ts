@@ -5,6 +5,8 @@ import { BsModalRef } from "ngx-bootstrap/modal";
 
 import { PatientApiService } from "../patient-api.service";
 
+import { PatientGenderEnum } from '../enums/patient'
+
 @Component({
   selector: "app-create-patient",
   templateUrl: "./create-patient.component.html",
@@ -35,7 +37,14 @@ export class CreatePatientComponent implements OnInit {
     this.form = this.fb.group({
       firstName: ["", Validators.required],
       lastName: ["", Validators.required],
+      isActive: [false],
+      birthdate: ["", Validators.required],
+      gender: []
     });
+  }
+
+  get PatientGender() {
+    return PatientGenderEnum
   }
 
   constructor(

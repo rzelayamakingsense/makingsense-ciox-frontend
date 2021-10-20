@@ -49,6 +49,39 @@ export class PatientApiService {
         }));
   }
 
+  getPatient(patient: Patient) {
+
+    // let params = new HttpParams();
+
+    // params = params.append('pageNumber', pageNumber);
+    // params = params.append('pageSize', pageSize);
+
+    this.spinner.show();
+
+    return this.http
+      .get<PatientsApi>(this.url + "/patient/" + patient.id)
+      .pipe(
+        map((item) => {
+          var data = Patient.new(item);
+
+          // data.pageNumber = item.pageNumber;
+
+          // // data.pageSize = item.pageSize; // TODO: uncomment line -> CIOX-51
+          // data.pageSize = pageSize; // TODO: remove line -> CIOX-51
+
+          // // data.totalResults = item.totalResults; // TODO: uncomment line -> CIOX-51
+          // data.totalResults = 50; // TODO: remove line -> CIOX-51
+
+          return data;
+        }),
+        tap(() => this.spinner.hide()),
+        catchError(err => {
+          this.spinner.hide();
+          this.toastr.error(err.message, "Patient");
+          return throwError(err);
+        }));
+  }
+
   createPatient(item: Patient) {
     this.spinner.show();
     return this.http.post(this.url + "/patient", item)

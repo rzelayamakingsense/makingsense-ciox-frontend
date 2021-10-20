@@ -1,0 +1,11 @@
+.patient-user-info__content {
+  > div {
+    display: flex;  
+    margin: 15px;
+  }
+
+  p {
+    font-weight: bold;
+    margin-right: 5px;
+  }
+}
