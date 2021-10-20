@@ -1,15 +1,25 @@
-import { NgModule } from "@angular/core";
-import { RouterModule, Routes } from "@angular/router";
+import { Injector, NgModule } from "@angular/core";
+import { Router, RouterModule, Routes } from "@angular/router";
 
-import { OktaCallbackComponent } from "@okta/okta-angular";
+import { OktaAuthGuard, OktaCallbackComponent } from "@okta/okta-angular";
+import { OktaAuth } from "@okta/okta-auth-js";
 
 import { AuthLayoutComponent } from "./layouts/auth-layout/auth-layout.component";
 import { DashboardLayoutComponent } from "./layouts/dashboard-layout/dashboard-layout.component";
+
+export function onNeedsAuthenticationGuard(oktaAuth: OktaAuth, injector: Injector) {
+  const router = injector.get(Router);
+  router.navigate(['/auth/login']);
+}
 
 const routes: Routes = [
   {
     path: "",
     component: DashboardLayoutComponent,
+    canActivate: [OktaAuthGuard],
+    data: {
+      onAuthRequired: onNeedsAuthenticationGuard
+    },
     children: [
       {
         path: "",
@@ -32,7 +42,7 @@ const routes: Routes = [
       },
     ],
   },
-  //Auth
+  // Auth
   {
     path: "",
     component: AuthLayoutComponent,
@@ -59,4 +69,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

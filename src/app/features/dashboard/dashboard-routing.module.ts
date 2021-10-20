@@ -1,6 +1,5 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
-import { OktaAuthGuard } from "@okta/okta-angular";
 import { ProfileComponent } from "./profile/profile.component";
 import { DashboardComponent } from "./dashboard/dashboard.component";
 
@@ -8,7 +7,6 @@ const routes: Routes = [
   {
     path: "",
     component: DashboardComponent,
-    canActivate: [OktaAuthGuard],
     children: [
       {
         path: "home",
@@ -18,8 +16,7 @@ const routes: Routes = [
   },
   {
     path: "profile",
-    component: ProfileComponent,
-    canActivate: [OktaAuthGuard],
+    component: ProfileComponent
   },
 ];
 
@@ -27,4 +24,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class DashboardRoutingModule {}
+export class DashboardRoutingModule { }

@@ -10,27 +10,19 @@ import { DashboardLayoutComponent } from "./layouts/dashboard-layout/dashboard-l
 
 import { OKTA_CONFIG, OktaAuthModule } from "@okta/okta-angular";
 import { OktaAuth } from "@okta/okta-auth-js";
-import { Router } from "@angular/router";
 
 import sampleConfig from "./app.config";
-import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
+import { HttpClientModule } from "@angular/common/http";
 import { SharedModule } from "./shared/shared.module";
-import { OktaAuthInterceptor } from "./core/interceptors/okta-auth.interceptor";
-import { OktaMockInterceptor } from "./core/interceptors/okta-mock.interceptor";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { NgxSpinnerModule } from "ngx-spinner";
 import { ToastrModule } from "ngx-toastr";
 import { CommonModule } from "@angular/common";
 
 const oktaConfig = Object.assign(
-  {
-    onAuthRequired: (_: any, injector: any) => {
-      const router = injector.get(Router);
-      router.navigate(["/login"]);
-    },
-  },
   sampleConfig.oidc
 );
+
 const oktaAuth = new OktaAuth(oktaConfig);
 
 @NgModule({
@@ -50,16 +42,16 @@ const oktaAuth = new OktaAuth(oktaConfig);
         preventDuplicates: true
       }
     ),
-
+    CommonModule,
     SharedModule,
   ],
   providers: [
     { provide: OKTA_CONFIG, useValue: { oktaAuth } },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: OktaMockInterceptor,
-      multi: true,
-    },
+    // {
+    //   provide: HTTP_INTERCEPTORS,
+    //   useClass: OktaAuthInterceptor,
+    //   multi: true,
+    // },
   ],
   bootstrap: [AppComponent],
 })

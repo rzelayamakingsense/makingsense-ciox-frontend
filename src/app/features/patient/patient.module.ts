@@ -17,7 +17,7 @@ import { PatientApiService } from "./patient-api.service";
 import { PatientUserInfoComponent } from "./components/patient-user-info/patient-user-info.component";
 import { SharedModule } from "src/app/shared/shared.module";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
-import { OktaMockInterceptor } from "src/app/core/interceptors/okta-mock.interceptor";
+import { OktaAuthInterceptor } from "src/app/core/interceptors/okta-auth.interceptor";
 
 @NgModule({
   declarations: [
@@ -43,7 +43,7 @@ import { OktaMockInterceptor } from "src/app/core/interceptors/okta-mock.interce
   ],
   providers: [PatientApiService, BsModalService, {
     provide: HTTP_INTERCEPTORS,
-    useClass: OktaMockInterceptor,
+    useClass: OktaAuthInterceptor,
     multi: true,
   }],
 })
