@@ -11,52 +11,63 @@
 
 <div class="alert alert-warning" *ngIf="patients?.length==0; else resultsTable">No records found.</div>
 
-
-
 <ng-template #resultsTable>
-  <div class="row">
-    <div class="col-md-8">
-      <span (click)="create()" class="btn btn-primary btn-xs">New Patient</span>
-    </div>
-  </div><br />
 
-  <table class="table table-bordered table-striped">
+  <div class="row mb-3">
+    <div class="d-flex justify-content-between">
+      <button type="button" (click)="create()" class="btn btn-primary btn-xs" title="New Patient">New Patient</button>
+      <div class="pt-3">
+        Page {{pageNumber}} of {{totalPages}}
+      </div>
+      <div class="pt-3">Total Results: {{totalResults}}</div>
+    </div>
+  </div>
+
+  <table class="table table-bordered table-striped table-hover">
     <thead>
       <tr>
-        <th>
-        </th>
         <th scope="col">First Name</th>
         <th scope="col">Last Name</th>
-        <th scope="col">Edit</th>
-        <th scope="col">Delete</th>
+        <th scope="col" class="col-1 text-center"></th>
+        <th scope="col" class="col-1 text-center"></th>
       </tr>
     </thead>
     <tbody>
       <ng-container *ngFor="let patient of patients; index as i">
         <tr>
-          <td class="col-2">
-            <button type="button" class="btn btn-primary" routerLink="/patient/visualize/{{patient.id}}">
-              Visualize
-            </button>
-          </td>
           <td>{{patient.firstName}}</td>
           <td>{{patient.lastName}}</td>
-
-          <td>
-            <i-bs name="pencil-square" width="30" height="30" (click)="update(patient)">
-            </i-bs>
-
+          <td class="text-center">
+            <button type="button" class="btn btn-secondary" (click)="update(patient)" title="Edit Patient">
+              <i-bs name="pencil-square"></i-bs>
+            </button>
           </td>
-          <td>
-            <i-bs (click)="delete(patient)" name="trash" width="30" height="30">
-            </i-bs>
+          <td class="text-center">
+            <button type="button" class="btn btn-danger" (click)="delete(patient)" title="Delete Patient">
+              <i-bs name="trash"></i-bs>
+            </button>
           </td>
-
         </tr>
       </ng-container>
     </tbody>
   </table>
 
-  <pagination [totalItems]="patients.length"></pagination>
+  <div class="d-flex justify-content-between">
+    <pagination [ngModel]="pageNumber" [totalItems]="totalResults" [itemsPerPage]="pageSize" [maxSize]="20"
+      [rotate]="true" [boundaryLinks]="true" (pageChanged)="pageChanged($event)" (numPages)="getTotalPages($event)">
+    </pagination>
+    <div class="row">
+      <div class="col-auto pt-1">
+        <label class="form-label">Page Size</label>
+      </div>
+      <div class="col-auto">
+        <select class="form-control" [(ngModel)]="pageSize" (change)="onPageSizeChange()" title="Page Size">
+          <ng-container *ngFor="let size of pageSizes">
+            <option [value]="size">{{size}}</option>
+          </ng-container>
+        </select>
+      </div>
+    </div>
+  </div>
 
 </ng-template>
