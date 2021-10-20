@@ -17,6 +17,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { CommonModule } from "@angular/common";
 import { SharedModule } from "./shared/shared.module";
 import { OktaAuthInterceptor } from "./core/interceptors/okta-auth.interceptor";
+import { OktaMockInterceptor } from "./core/interceptors/okta-mock.interceptor";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { NgxSpinnerModule } from "ngx-spinner";
 import { ToastrModule } from "ngx-toastr";
@@ -57,6 +58,11 @@ const oktaAuth = new OktaAuth(oktaConfig);
     {
       provide: HTTP_INTERCEPTORS,
       useClass: OktaAuthInterceptor,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: OktaMockInterceptor,
       multi: true,
     },
   ],
