@@ -19,6 +19,7 @@ import { SharedModule } from "./shared/shared.module";
 import { OktaAuthInterceptor } from "./core/interceptors/okta-auth.interceptor";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { NgxSpinnerModule } from "ngx-spinner";
+import { ToastrModule } from "ngx-toastr";
 
 const oktaConfig = Object.assign(
   {
@@ -43,6 +44,11 @@ const oktaAuth = new OktaAuth(oktaConfig);
 
     OktaAuthModule,
     NgxSpinnerModule,
+    ToastrModule.forRoot(
+      {
+        preventDuplicates: true
+      }
+    ),
     BrowserAnimationsModule,
     SharedModule.forRoot(),
   ],

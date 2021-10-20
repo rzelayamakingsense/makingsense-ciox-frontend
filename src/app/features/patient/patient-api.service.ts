@@ -7,6 +7,7 @@ import { Patient } from "../../shared/models/patient";
 import { PatientsApi } from "../../shared/models/api";
 import { throwError } from "rxjs";
 import { NgxSpinnerService } from "ngx-spinner";
+import { ToastrService } from "ngx-toastr";
 
 @Injectable({
   providedIn: "root",
@@ -43,7 +44,7 @@ export class PatientApiService {
         tap(() => this.spinner.hide()),
         catchError(err => {
           this.spinner.hide();
-          alert(err.message);
+          this.toastr.error(err.message, "Patients");
           return throwError(err);
         }));
   }
@@ -53,10 +54,13 @@ export class PatientApiService {
     return this.http.post(this.url + "/patient", item)
       .pipe(
         map((data) => Patient.new(data)),
-        tap(() => this.spinner.hide()),
+        tap(() => {
+          this.spinner.hide();
+          this.toastr.success("Patient created successfully", "Patients");
+        }),
         catchError(err => {
           this.spinner.hide();
-          alert(err.message);
+          this.toastr.error(err.message, "Patients");
           return throwError(err);
         }));
   }
@@ -66,10 +70,13 @@ export class PatientApiService {
     return this.http.put(this.url + "/patient/" + item.id, Patient.transform(item))
       .pipe(
         map((item) => Patient.new(item)),
-        tap(() => this.spinner.hide()),
+        tap(() => {
+          this.spinner.hide();
+          this.toastr.success("Patient updated successfully", "Patients");
+        }),
         catchError(err => {
           this.spinner.hide();
-          alert(err.message);
+          this.toastr.error(err.message, "Patients");
           return throwError(err);
         }));
   }
@@ -78,16 +85,20 @@ export class PatientApiService {
     this.spinner.show();
     return this.http.delete(this.url + "/patient/" + item.id)
       .pipe(
-        tap(() => this.spinner.hide()),
+        tap(() => {
+          this.spinner.hide();
+          this.toastr.success("Patient deleted successfully", "Patients");
+        }),
         catchError(err => {
           this.spinner.hide();
-          alert(err.message);
+          this.toastr.error(err.message, "Patients");
           return throwError(err);
         }));
   }
 
   constructor(
     private http: HttpClient,
-    private spinner: NgxSpinnerService
+    private spinner: NgxSpinnerService,
+    private toastr: ToastrService
   ) { }
 }
