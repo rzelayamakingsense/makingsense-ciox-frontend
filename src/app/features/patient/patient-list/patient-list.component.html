@@ -1,0 +1,39 @@
+<div class="card mb-3">
+    <div class="card-body p-1 m-1">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb m-1">
+                <li class="breadcrumb-item"><a routerLink="/">Dashboard</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Patients</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+
+<div class="alert alert-warning" *ngIf="(patients$ | async)?.length==0; else resultsTable">No records found.</div>
+
+<ng-template #resultsTable>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>
+                </th>
+                <th scope="col">First Name</th>
+                <th scope="col">Last Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            <ng-container *ngFor="let patient of patients$ | async; index as i">
+                <tr>
+                    <td class="col-2">
+                        <button type="button" class="btn btn-primary"
+                            routerLink="/patient/visualize/{{patient.patientId}}">
+                            Visualize
+                        </button>
+                    </td>
+                    <td>{{patient.firstName}}</td>
+                    <td>{{patient.lastName}}</td>
+                </tr>
+            </ng-container>
+        </tbody>
+    </table>
+</ng-template>
