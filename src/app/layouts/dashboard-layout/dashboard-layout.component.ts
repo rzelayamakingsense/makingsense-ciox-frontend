@@ -27,6 +27,9 @@ export class DashboardLayoutComponent {
   ) { }
 
   async logout() {
+    localStorage.clear();
+    sessionStorage.clear();
     await this.oktaAuth.signOut();
   }
+
 }
