@@ -15,6 +15,7 @@ export class UpdatePatientComponent implements OnInit {
   event: EventEmitter<any> = new EventEmitter();
   form!: FormGroup;
   _patient: Patient = new Patient();
+  updating: boolean = false;
 
   ngOnInit() {
     this.form = this.fb.group({
@@ -36,9 +37,11 @@ export class UpdatePatientComponent implements OnInit {
   }
 
   onSubmit() {
-    this.service.updatePatient(this.form.value).subscribe((data) => {
+    this.updating = true;
+    this.service.updatePatient(this.form.value).subscribe(() => {
       this.event.emit("updated");
       this.bsModalRef.hide();
+      setTimeout(() => this.updating = false, 3000);
     });
   }
 
@@ -50,5 +53,5 @@ export class UpdatePatientComponent implements OnInit {
     private fb: FormBuilder,
     private service: PatientApiService,
     private bsModalRef: BsModalRef
-  ) {}
+  ) { }
 }

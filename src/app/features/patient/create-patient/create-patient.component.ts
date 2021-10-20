@@ -13,14 +13,18 @@ import { PatientApiService } from "../patient-api.service";
 export class CreatePatientComponent implements OnInit {
   form!: FormGroup;
   event: EventEmitter<any> = new EventEmitter();
+  updating: boolean = false;
 
   onSubmit() {
-    this.service.createPatient(this.form.value).subscribe((data: any) => {
-      if (data != null) {
-        this.event.emit("created");
-        this.bsModalRef.hide();
-      }
-    });
+    this.updating = true;
+    this.service.createPatient(this.form.value)
+      .subscribe((data: any) => {
+        if (data != null) {
+          this.event.emit("created");
+          this.bsModalRef.hide();
+          setTimeout(() => this.updating = false, 3000);
+        }
+      });
   }
 
   onClose() {
@@ -38,5 +42,5 @@ export class CreatePatientComponent implements OnInit {
     private fb: FormBuilder,
     private service: PatientApiService,
     private bsModalRef: BsModalRef
-  ) {}
+  ) { }
 }

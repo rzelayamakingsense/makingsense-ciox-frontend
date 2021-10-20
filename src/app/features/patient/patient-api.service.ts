@@ -24,9 +24,8 @@ export class PatientApiService {
   }
 
   createPatient(item: Patient) {
-    const data = { FisrtName: item.firstName, lastName: item.lastName };
     return this.http
-      .post(this.url + "/patient", data)
+      .post(this.url + "/patient", item)
       .pipe(map((data) => Patient.new(data)));
   }
 
@@ -40,5 +39,5 @@ export class PatientApiService {
     return this.http.delete(this.url + "/patient/" + item.id);
   }
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 }
