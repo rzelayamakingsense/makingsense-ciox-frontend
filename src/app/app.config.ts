@@ -7,7 +7,7 @@ export default {
     clientId: CLIENT_ID,
     issuer: ISSUER,
     redirectUri: "http://localhost:4200/callback",
-    scopes: ["openid", "profile", "email"],
+    scopes: ["openid", "profile", "email", "claims"],
     testing: {
       disableHttpsCheck: `${OKTA_TESTING_DISABLEHTTPSCHECK}`,
     },

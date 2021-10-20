@@ -19,7 +19,7 @@ export class PatientsApi {
         pageNumber,
         pageSize,
         totalResults,
-        items: items.map((patient) => Patient.new(patient)),
+        items: items.map((item: any) => Patient.new(item)),
       },
     };
   }

@@ -1,8 +1,11 @@
 import { Component, OnInit } from "@angular/core";
 import { Patient } from "../.../../../../shared/models/patient";
-import { Observable, of } from "rxjs";
 import { PatientApiService } from "../patient-api.service";
 import { tap } from "rxjs/operators";
+import { BsModalRef, BsModalService } from "ngx-bootstrap/modal";
+import { CreatePatientComponent } from "../create-patient/create-patient.component";
+import { UpdatePatientComponent } from "../update-patient/update-patient.component";
+import { DeletePatientComponent } from "../delete-patient/delete-patient.component";
 
 @Component({
   selector: "app-patient-list",
@@ -10,24 +13,24 @@ import { tap } from "rxjs/operators";
   styleUrls: ["./patient-list.component.scss"],
 })
 export class PatientListComponent implements OnInit {
-  // patients$: Observable<any[]> = new Observable<Array<any>>();
-
   patients: Patient[] = [];
   pageSize: number = 0;
   pageNumber: number = 0;
   totalResults: number = 0;
 
+  bsModalRef!: BsModalRef;
+
   ngOnInit(): void {
-    this.getPatients();
+    this.getPatientList();
   }
 
-  getPatients() {
+  getPatientList() {
     this.service
-      .getPatients()
+      .getPatientList()
       .pipe(
         tap(({ items, pageSize, pageNumber, totalResults }) => {
           this.patients = items;
-          this.pageSize = pageNumber;
+          this.pageSize = pageSize;
           this.pageNumber = pageNumber;
           this.totalResults = totalResults;
         })
@@ -35,5 +38,37 @@ export class PatientListComponent implements OnInit {
       .subscribe();
   }
 
-  constructor(private service: PatientApiService) {}
+  create() {
+    this.bsModalRef = this.bsModalService.show(CreatePatientComponent);
+    this.bsModalRef.content.event.subscribe((result: any) => {
+      if (result == "created") {
+        this.getPatientList();
+      }
+    });
+  }
+
+  update(patient: Patient) {
+    this.bsModalRef = this.bsModalService.show(UpdatePatientComponent);
+    this.bsModalRef.content.patient = patient;
+    this.bsModalRef.content.event.subscribe((result: any) => {
+      if (result == "updated") {
+        this.getPatientList();
+      }
+    });
+  }
+
+  delete(patient: Patient) {
+    this.bsModalRef = this.bsModalService.show(DeletePatientComponent);
+    this.bsModalRef.content.patient = patient;
+    this.bsModalRef.content.event.subscribe((result: any) => {
+      if (result == "deleted") {
+        this.getPatientList();
+      }
+    });
+  }
+
+  constructor(
+    private service: PatientApiService,
+    private bsModalService: BsModalService
+  ) {}
 }

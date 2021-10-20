@@ -11,7 +11,15 @@
 
 <div class="alert alert-warning" *ngIf="patients?.length==0; else resultsTable">No records found.</div>
 
+
+
 <ng-template #resultsTable>
+  <div class="row">
+    <div class="col-md-8">
+      <span (click)="create()" class="btn btn-primary btn-xs">New Patient</span>
+    </div>
+  </div><br />
+
   <table class="table table-bordered table-striped">
     <thead>
       <tr>
@@ -19,6 +27,8 @@
         </th>
         <th scope="col">First Name</th>
         <th scope="col">Last Name</th>
+        <th scope="col">Edit</th>
+        <th scope="col">Delete</th>
       </tr>
     </thead>
     <tbody>
@@ -31,8 +41,22 @@
           </td>
           <td>{{patient.firstName}}</td>
           <td>{{patient.lastName}}</td>
+
+          <td>
+            <i-bs name="pencil-square" width="30" height="30" (click)="update(patient)">
+            </i-bs>
+
+          </td>
+          <td>
+            <i-bs (click)="delete(patient)" name="trash" width="30" height="30">
+            </i-bs>
+          </td>
+
         </tr>
       </ng-container>
     </tbody>
   </table>
+
+  <pagination [totalItems]="patients.length"></pagination>
+
 </ng-template>

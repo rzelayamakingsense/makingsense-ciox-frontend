@@ -14,7 +14,7 @@ export class PatientApiService {
     environment.api ? "/" + environment.api : ""
   }${environment.version ? "/" + environment.version : ""}`;
 
-  getPatients() {
+  getPatientList() {
     return this.http
       .get<PatientsApi>(this.url + "/patient", {
         headers: new HttpHeaders({ Prefer: "code=200, dynamic=true" }),
