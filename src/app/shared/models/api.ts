@@ -1,5 +1,3 @@
-// import { Token } from "@shared/models/token";
-// import { Component, Element } from "./component";
 import { base, transform } from "./base";
 
 import { Patient } from "./patient";

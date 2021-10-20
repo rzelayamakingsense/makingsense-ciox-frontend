@@ -1,11 +1,8 @@
-// Core
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { environment } from "../../../environments/environment";
-import { Observable } from "rxjs";
 import { map, tap } from "rxjs/operators";
 
-// Models
 import { Patient } from "../../shared/models/patient";
 import { PatientsApi } from "../../shared/models/api";
 
@@ -17,9 +14,6 @@ export class PatientApiService {
     environment.api ? "/" + environment.api : ""
   }${environment.version ? "/" + environment.version : ""}`;
 
-  //
-  // PATIENT
-  //
   getPatients() {
     return this.http
       .get<PatientsApi>(this.url + "/patient", {

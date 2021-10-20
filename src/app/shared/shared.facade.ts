@@ -1,7 +1,5 @@
-// Core
 import { Injectable } from "@angular/core";
 
-// State
 import { SharedState } from "./shared.state";
 
 @Injectable()

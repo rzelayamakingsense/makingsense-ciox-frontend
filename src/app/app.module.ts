@@ -48,8 +48,8 @@ const oktaAuth = new OktaAuth(oktaConfig);
       provide: HTTP_INTERCEPTORS,
       useClass: OktaAuthInterceptor,
       multi: true,
-    }
+    },
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

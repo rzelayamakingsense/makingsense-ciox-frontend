@@ -1,11 +1,9 @@
-// Core
 import { Component, OnInit } from "@angular/core";
 
-// Okta
+// @ts-ignore-line
 import * as OktaSignIn from "@okta/okta-signin-widget";
 import { OktaAuth } from "@okta/okta-auth-js";
 
-// Config
 import sampleConfig from "../../../app.config";
 
 const DEFAULT_ORIGINAL_URI = window.location.origin;
@@ -52,14 +50,11 @@ export class LoginComponent implements OnInit {
           this.oktaAuth.setOriginalUri("/");
         }
 
-        // Remove the widget
         this.signIn.remove();
 
-        // In this flow the redirect to Okta occurs in a hidden iframe
         this.oktaAuth.signInWithRedirect(tokens);
       })
       .catch((err: any) => {
-        // Typically due to misconfiguration
         throw err;
       });
   }
