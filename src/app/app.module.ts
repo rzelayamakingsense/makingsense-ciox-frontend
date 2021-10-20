@@ -5,8 +5,8 @@ import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 
 // Layouts Components
-import { AuthLayoutComponent } from './layouts/auth-layout/auth-layout.component';
-import { DashboardLayoutComponent } from './layouts/dashboard-layout/dashboard-layout.component';
+import { AuthLayoutComponent } from "./layouts/auth-layout/auth-layout.component";
+import { DashboardLayoutComponent } from "./layouts/dashboard-layout/dashboard-layout.component";
 
 // Okta
 import { OKTA_CONFIG, OktaAuthModule } from "@okta/okta-angular";
@@ -17,6 +17,7 @@ import { Router } from "@angular/router";
 import sampleConfig from "./app.config";
 import { HttpClientModule } from "@angular/common/http";
 import { CommonModule } from "@angular/common";
+import { SharedModule } from "./shared/shared.module";
 
 const oktaConfig = Object.assign(
   {
@@ -30,11 +31,7 @@ const oktaConfig = Object.assign(
 const oktaAuth = new OktaAuth(oktaConfig);
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    AuthLayoutComponent,
-    DashboardLayoutComponent
-  ],
+  declarations: [AppComponent, AuthLayoutComponent, DashboardLayoutComponent],
   imports: [
     CommonModule,
     BrowserModule,
@@ -42,8 +39,9 @@ const oktaAuth = new OktaAuth(oktaConfig);
     HttpClientModule,
     // Okta
     OktaAuthModule,
+    SharedModule.forRoot(),
   ],
   providers: [{ provide: OKTA_CONFIG, useValue: { oktaAuth } }],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

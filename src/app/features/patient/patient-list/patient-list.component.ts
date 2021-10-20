@@ -1,41 +1,39 @@
-import { Component, OnInit } from '@angular/core';
-import { Observable, of } from 'rxjs';
+import { Component, OnInit } from "@angular/core";
+import { Patient } from "../.../../../../shared/models/patient";
+import { Observable, of } from "rxjs";
+import { PatientApiService } from "../patient-api.service";
+import { tap } from "rxjs/operators";
 
 @Component({
-  selector: 'app-patient-list',
-  templateUrl: './patient-list.component.html',
-  styleUrls: ['./patient-list.component.scss']
+  selector: "app-patient-list",
+  templateUrl: "./patient-list.component.html",
+  styleUrls: ["./patient-list.component.scss"],
 })
 export class PatientListComponent implements OnInit {
+  // patients$: Observable<any[]> = new Observable<Array<any>>();
 
-  patients$: Observable<any[]> = new Observable<Array<any>>();
-
-  constructor() { }
+  patients: Patient[] = [];
+  pageSize: number = 0;
+  pageNumber: number = 0;
+  totalResults: number = 0;
 
   ngOnInit(): void {
     this.getPatients();
   }
 
   getPatients() {
-
-    this.patients$ = of([
-      {
-        "patientId": "0f76f8e3-45e1-49be-babc-895258b1c570",
-        "firstName": "Eleonor",
-        "lastName": "Cohen"
-      },
-      {
-        "patientId": "ca351b6d-bff3-4ac5-b034-f0b5e3b71d9a",
-        "firstName": "Caroline",
-        "lastName": "Koch"
-      },
-      {
-        "patientId": "71dd10da-6a73-4083-a46c-85abc0c36a2a",
-        "firstName": "Eleonor",
-        "lastName": "Best"
-      }
-    ]);
-
+    this.service
+      .getPatients()
+      .pipe(
+        tap(({ items, pageSize, pageNumber, totalResults }) => {
+          this.patients = items;
+          this.pageSize = pageNumber;
+          this.pageNumber = pageNumber;
+          this.totalResults = totalResults;
+        })
+      )
+      .subscribe();
   }
 
+  constructor(private service: PatientApiService) {}
 }
