@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  host: "https://stoplight.io/mocks/making-sense/ciox-health/9980997",
+  host: "http://localhost:5000/api",
   api: "api",
   version: "",
 };

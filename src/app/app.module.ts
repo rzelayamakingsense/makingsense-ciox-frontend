@@ -15,9 +15,10 @@ import { Router } from "@angular/router";
 
 // Okta Configuration
 import sampleConfig from "./app.config";
-import { HttpClientModule } from "@angular/common/http";
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { CommonModule } from "@angular/common";
 import { SharedModule } from "./shared/shared.module";
+import { OktaAuthInterceptor } from "./core/interceptors/okta-auth.interceptor";
 
 const oktaConfig = Object.assign(
   {
@@ -41,7 +42,14 @@ const oktaAuth = new OktaAuth(oktaConfig);
     OktaAuthModule,
     SharedModule.forRoot(),
   ],
-  providers: [{ provide: OKTA_CONFIG, useValue: { oktaAuth } }],
+  providers: [
+    { provide: OKTA_CONFIG, useValue: { oktaAuth } },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: OktaAuthInterceptor,
+      multi: true,
+    }
+  ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule { }
