@@ -72,25 +72,18 @@
               "namedChunks": true
             },
             "mock": {
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "2.5mb",
-                  "maximumError": "4mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
-                }
-              ],
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true,
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.mock.ts"
                 }
-              ],
-              "outputHashing": "all"
+              ]
             }
           },
           "defaultConfiguration": "production"

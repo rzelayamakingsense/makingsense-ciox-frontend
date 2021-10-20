@@ -15,8 +15,7 @@ export class OktaMockInterceptor implements HttpInterceptor {
   constructor() { }
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-
-    if (environment.mock) {
+    if (environment.mock && request.method === 'GET') {
       request = request.clone({ headers: request.headers.set('Prefer', 'code=200, dynamic=true') })
     }
 
