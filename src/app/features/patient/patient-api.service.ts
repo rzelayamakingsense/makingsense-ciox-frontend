@@ -13,9 +13,8 @@ import { ToastrService } from 'ngx-toastr';
   providedIn: 'root',
 })
 export class PatientApiService {
-  readonly url = `${environment.host}${environment.api ? '/' + environment.api : ''}${
-    environment.version ? '/' + environment.version : ''
-  }`;
+  readonly url = `${environment.host}${environment.api ? '/' + environment.api : ''}${environment.version ? '/' + environment.version : ''
+    }`;
 
   onError(err: any) {
     this.spinner.hide();
@@ -52,6 +51,19 @@ export class PatientApiService {
       }),
       tap(() => this.spinner.hide()),
       catchError((err) => this.onError(err)),
+    );
+  }
+
+  getPatientAutocomplete(query: string) {
+
+    let params = new HttpParams();
+
+    params = params.append('query', query);
+    // TODO: we need autocomplete api method. We are using patient (getAll) method temporarily
+    // we need something like: return this.http.get<PatientsApi>(this.url + "/patient/autocomplete", { params })
+    return this.http.get<PatientsApi>(this.url + "/patient", { params }).pipe(
+      map((data: any) => data.items || []),
+      catchError((err) => this.onError(err))
     );
   }
 
@@ -104,5 +116,5 @@ export class PatientApiService {
     );
   }
 
-  constructor(private http: HttpClient, private spinner: NgxSpinnerService, private toastr: ToastrService) {}
+  constructor(private http: HttpClient, private spinner: NgxSpinnerService, private toastr: ToastrService) { }
 }

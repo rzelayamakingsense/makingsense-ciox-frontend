@@ -6,9 +6,10 @@ import { OktaAuthInterceptor } from '@core/interceptors/okta-auth.interceptor';
 import { SharedModule } from '@shared/shared.module';
 
 import { ModalModule, BsModalService } from 'ngx-bootstrap/modal';
+import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { NgxBootstrapIconsModule } from 'ngx-bootstrap-icons';
-import { pencilSquare, trash, xLg, eye } from 'ngx-bootstrap-icons';
+import { pencilSquare, trash, xLg, eye, search } from 'ngx-bootstrap-icons';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 import { PatientRoutingModule } from './patient-routing.module';
@@ -21,9 +22,10 @@ import { PatientApiService } from './patient-api.service';
 
     PatientRoutingModule,
 
+    TypeaheadModule.forRoot(),
     PaginationModule.forRoot(),
     ModalModule.forRoot(),
-    NgxBootstrapIconsModule.pick({ pencilSquare, trash, xLg, eye }),
+    NgxBootstrapIconsModule.pick({ pencilSquare, trash, xLg, eye, search }),
     BsDatepickerModule.forRoot(),
   ],
   providers: [
@@ -36,4 +38,4 @@ import { PatientApiService } from './patient-api.service';
     },
   ],
 })
-export class PatientModule {}
+export class PatientModule { }

@@ -1,4 +1,35 @@
+<div class="card mb-2">
+  <div class="card-body">
+
+    <div class="row g-3 align-items-center">
+      <div class="col-auto">
+        <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="Enter patient's name" maxlength="50"
+            [(ngModel)]="quickSearchQuery" [typeahead]="suggestedPatients$" [typeaheadScrollable]="true"
+            [typeaheadMinLength]="3" [typeaheadOptionsLimit]="7" typeaheadOptionField="lastName"
+            [typeaheadItemTemplate]="customItemTemplate" [typeaheadAsync]="true"
+            (typeaheadNoResults)="typeaheadOnNoResults($event)" (typeaheadLoading)="changeTypeaheadLoading($event)"
+            (typeaheadOnSelect)="typeaheadOnSelect($event)" />
+          <span class="input-group-text" id="basic-addon1">
+            <i-bs name="search"></i-bs>
+          </span>
+        </div>
+      </div>
+      <div class="col-auto m-0">
+        <div *ngIf="typeaheadLoading">Loading...</div>
+        <div class="text-danger" *ngIf="typeaheadNoResults">No Results Found</div>
+      </div>
+    </div>
+
+    <ng-template #customItemTemplate let-model="item" let-index="index">
+      {{ model.firstName}} {{ model.lastName}}
+    </ng-template>
+
+  </div>
+</div>
+
 <div class="alert alert-warning" *ngIf="patients?.length === 0; else resultsTable">No records found.</div>
+
 
 <ng-template #resultsTable>
 

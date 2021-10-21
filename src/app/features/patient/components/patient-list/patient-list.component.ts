@@ -1,8 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { take } from 'rxjs/operators';
+import { Observable, Observer, of } from 'rxjs';
+import { switchMap, take } from 'rxjs/operators';
 import { PageChangedEvent } from 'ngx-bootstrap/pagination';
 import { BsModalRef, BsModalService } from 'ngx-bootstrap/modal';
+import { TypeaheadMatch } from 'ngx-bootstrap/typeahead';
 
 import { Patient } from '@shared/models/patient';
 import { PatientPageEnum } from '../../enums/patient';
@@ -23,10 +25,15 @@ export class PatientListComponent implements OnInit {
   totalPages: number = 0;
   bsModalRef!: BsModalRef;
   pageSizes = [10, 20, 50, 100];
+  quickSearchQuery: any;
+  suggestedPatients$?: Observable<any[]>;
+  typeaheadLoading?: boolean;
+  typeaheadNoResults?: boolean;
 
   @Input() page: PatientPageEnum = PatientPageEnum.LIST;
 
   ngOnInit(): void {
+    this.initAutocomplete();
     this.getPatientList();
   }
 
@@ -41,6 +48,31 @@ export class PatientListComponent implements OnInit {
         // this.totalResults = data.totalResults; //TODO: uncomment this -> CIOX-51 task
         this.totalResults = 50; //TODO: to be removed -> CIOX-51 task
       });
+  }
+
+  initAutocomplete() {
+    this.suggestedPatients$ = new Observable((observer: Observer<string | undefined>) => {
+      observer.next(this.quickSearchQuery);
+    }).pipe(
+      switchMap((query: string) => {
+        if (query) {
+          return this.service.getPatientAutocomplete(query);
+        }
+        return of([]);
+      })
+    );
+  }
+
+  changeTypeaheadLoading(e: boolean): void {
+    this.typeaheadLoading = e;
+  }
+
+  typeaheadOnSelect(e: TypeaheadMatch): void {
+    this.router.navigate(["patient/edit/" + e.item.id]);
+  }
+
+  typeaheadOnNoResults(event: boolean): void {
+    this.typeaheadNoResults = event;
   }
 
   new() {
@@ -109,5 +141,5 @@ export class PatientListComponent implements OnInit {
     private bsModalService: BsModalService,
     private router: Router,
     private route: ActivatedRoute,
-  ) {}
+  ) { }
 }
