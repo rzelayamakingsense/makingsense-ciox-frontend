@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DeletePatientComponent } from './delete-patient.component';
+import { DeletePatientComponent } from './patient-delete.component';
 
 describe('DeletePatientComponent', () => {
   let component: DeletePatientComponent;
@@ -8,9 +8,8 @@ describe('DeletePatientComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DeletePatientComponent ]
-    })
-    .compileComponents();
+      declarations: [DeletePatientComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

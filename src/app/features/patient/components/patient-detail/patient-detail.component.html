@@ -1,0 +1,73 @@
+<div role="document">
+  <div class="col-6  offset-3 justify-content-center">
+
+    <form class="form-horizontal" id="add-form" [formGroup]="form" (ngSubmit)="onSubmit()">
+
+      <div class="modal-header">
+        <input type="hidden" formControlName="id" />
+
+        <h4 *ngIf="isReadonly" class="modal-title" id="add-modal-label">View Patient</h4>
+        <h4 class="modal-title" id="add-modal-label" *ngIf="isEditable">Edit Patient</h4>
+      </div>
+
+      <div class="modal-body">
+
+        <div class="form-group mb-3">
+          <label class="col-sm-2 control-label visually-hidden">First Name</label>
+          <div class="col-sm-10">
+            <input type="text" [readonly]="isReadonly" class="form-control" placeholder="First Name" aria-placeholder="First Name" formControlName="firstName" />
+          </div>
+        </div>
+
+        <div class="form-group mb-3">
+          <label class="col-sm-2 control-label visually-hidden">Last Name</label>
+          <div class="col-sm-10">
+            <input type="text" [readonly]="isReadonly" placeholder="Last Name" aria-placeholder="Last Name" class="form-control" formControlName="lastName" />
+          </div>
+        </div>
+
+        <div class="form-group mb-3">
+          <div class="form-check">
+            <input formControlName="isActive" [attr.disabled]="isReadonly ? '' : null" class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+            <label class="form-check-label" for="flexCheckDefault" aria-label="Is Active">
+              Is Active
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group mb-3">
+          <label class="col-sm-2 control-label visually-hidden">Birthdate</label>
+          <div class="col-sm-10">
+            <input [attr.disabled]="isReadonly ? '' : null"  type="text" formControlName="birthDate" placeholder="Select your birthdate"
+              class="form-control" bsDatepicker>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="col-sm-2 control-label">Gender</label>
+          <div class="col-sm-10">
+
+            <select [attr.disabled]="isReadonly ? '' : null"  class="form-select" aria-label="Select your gender"
+              formControlName="gender">
+              <option selected value="">Select a gender</option>
+              <option value="0">{{PatientGender.NOT_SET}}</option>
+              <option value="1">{{PatientGender.MALE}}</option>
+              <option value="2">{{PatientGender.FEMALE}}</option>
+            </select>
+
+          </div>
+        </div>
+
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="onClose()">Close</button>
+        <button *ngIf="!isReadonly" type="submit" class="btn btn-primary" [disabled]="form.invalid">{{isEditable ?
+          'Update' : 'Create'}}</button>
+        <button *ngIf="isReadonly" type="button" class="btn btn-primary" data-dismiss="modal" (click)="edit()">Edit</button>
+      </div>
+
+    </form>
+
+  </div>
+</div>

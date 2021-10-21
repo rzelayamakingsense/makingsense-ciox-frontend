@@ -1,0 +1,14 @@
+<div class="card mb-3">
+  <div class="card-body p-1 m-1">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb m-1">
+        <li class="breadcrumb-item"><a routerLink="/">Dashboard</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Patients</li>
+      </ol>
+    </nav>
+  </div>
+</div>
+
+<app-patient-list *ngIf="isPageList" [page]="page"></app-patient-list>
+
+<app-patient-detail *ngIf="isPageDetail" [page]="page"></app-patient-detail>

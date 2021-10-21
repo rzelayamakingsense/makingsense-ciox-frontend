@@ -1,24 +1,16 @@
-import { NgModule } from "@angular/core";
-import { CommonModule } from "@angular/common";
-import { HttpClientModule } from "@angular/common/http";
-import { RouterModule } from "@angular/router";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import { SharedPipesModule } from './pipes.module'
+import { SharedPipesModule } from './pipes.module';
+import { HttpClientModule } from '@angular/common/http';
 
-const SHARED_MODULE = [
-  CommonModule,
-  FormsModule,
-  ReactiveFormsModule,
-  RouterModule,
-  HttpClientModule,
-
-  SharedPipesModule
-];
+const SHARED_MODULE = [CommonModule, FormsModule, ReactiveFormsModule, HttpClientModule, SharedPipesModule];
 
 @NgModule({
+  providers: [],
   declarations: [],
   imports: [...SHARED_MODULE],
   exports: [...SHARED_MODULE],
 })
-export class SharedModule { }
+export class SharedModule {}

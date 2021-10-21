@@ -1,50 +1,39 @@
-import { NgModule } from "@angular/core";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { NgModule } from '@angular/core';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
-import { ModalModule, BsModalService } from "ngx-bootstrap/modal";
-import { PaginationModule } from "ngx-bootstrap/pagination";
-import { NgxBootstrapIconsModule } from "ngx-bootstrap-icons";
-import { pencilSquare, trash, xLg, eye } from "ngx-bootstrap-icons";
+import { OktaAuthInterceptor } from '@core/interceptors/okta-auth.interceptor';
+
+import { SharedModule } from '@shared/shared.module';
+
+import { ModalModule, BsModalService } from 'ngx-bootstrap/modal';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
+import { NgxBootstrapIconsModule } from 'ngx-bootstrap-icons';
+import { pencilSquare, trash, xLg, eye } from 'ngx-bootstrap-icons';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
-import { PatientRoutingModule } from "./patient-routing.module";
-import { PatientListComponent } from "./patient-list/patient-list.component";
-import { CreatePatientComponent } from "./create-patient/create-patient.component";
-import { UpdatePatientComponent } from "./update-patient/update-patient.component";
-import { DeletePatientComponent } from "./delete-patient/delete-patient.component";
-
-import { PatientApiService } from "./patient-api.service";
-import { PatientUserInfoComponent } from "./components/patient-user-info/patient-user-info.component";
-import { SharedModule } from "src/app/shared/shared.module";
-import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
-import { OktaAuthInterceptor } from "src/app/core/interceptors/okta-auth.interceptor";
+import { PatientRoutingModule } from './patient-routing.module';
+import { PatientApiService } from './patient-api.service';
 
 @NgModule({
-  declarations: [
-    PatientListComponent,
-
-    CreatePatientComponent,
-    UpdatePatientComponent,
-    DeletePatientComponent,
-
-    PatientUserInfoComponent,
-  ],
+  declarations: [...PatientRoutingModule.components],
   imports: [
-    HttpClientModule,
-
     SharedModule,
 
     PatientRoutingModule,
+
     PaginationModule.forRoot(),
     ModalModule.forRoot(),
     NgxBootstrapIconsModule.pick({ pencilSquare, trash, xLg, eye }),
-
     BsDatepickerModule.forRoot(),
   ],
-  providers: [PatientApiService, BsModalService, {
-    provide: HTTP_INTERCEPTORS,
-    useClass: OktaAuthInterceptor,
-    multi: true,
-  }],
+  providers: [
+    PatientApiService,
+    BsModalService,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: OktaAuthInterceptor,
+      multi: true,
+    },
+  ],
 })
-export class PatientModule { }
+export class PatientModule {}

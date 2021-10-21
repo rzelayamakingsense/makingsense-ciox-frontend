@@ -1,6 +1,7 @@
 import { NgModule } from "@angular/core";
-import { BrowserModule } from "@angular/platform-browser";
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { CoreModule } from "./core/core.module";
+import { SharedModule } from "./shared/shared.module";
 
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
@@ -8,32 +9,18 @@ import { AppComponent } from "./app.component";
 import { AuthLayoutComponent } from "./layouts/auth-layout/auth-layout.component";
 import { DashboardLayoutComponent } from "./layouts/dashboard-layout/dashboard-layout.component";
 
+import { NgxSpinnerModule } from "ngx-spinner";
+import { ToastrModule } from "ngx-toastr";
 import { OKTA_CONFIG, OktaAuthModule } from "@okta/okta-angular";
 import { OktaAuth } from "@okta/okta-auth-js";
 
-import sampleConfig from "./app.config";
-import { HttpClientModule } from "@angular/common/http";
-import { SharedModule } from "./shared/shared.module";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { NgxSpinnerModule } from "ngx-spinner";
-import { ToastrModule } from "ngx-toastr";
-import { CommonModule } from "@angular/common";
-
-const oktaConfig = Object.assign(
-  sampleConfig.oidc
-);
-
-const oktaAuth = new OktaAuth(oktaConfig);
+import { Config } from './helpers/okta'
 
 @NgModule({
   declarations: [AppComponent, AuthLayoutComponent, DashboardLayoutComponent],
   imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    AppRoutingModule,
-    HttpClientModule,
-    FormsModule,
-    ReactiveFormsModule,
+    CoreModule,
+    SharedModule,
 
     OktaAuthModule,
     NgxSpinnerModule,
@@ -42,16 +29,11 @@ const oktaAuth = new OktaAuth(oktaConfig);
         preventDuplicates: true
       }
     ),
-    CommonModule,
-    SharedModule,
+
+    AppRoutingModule,
   ],
   providers: [
-    { provide: OKTA_CONFIG, useValue: { oktaAuth } },
-    // {
-    //   provide: HTTP_INTERCEPTORS,
-    //   useClass: OktaAuthInterceptor,
-    //   multi: true,
-    // },
+    { provide: OKTA_CONFIG, useValue: { oktaAuth: new OktaAuth(Config.oidc) } },
   ],
   bootstrap: [AppComponent],
 })

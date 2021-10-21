@@ -16,9 +16,9 @@ export function base(data: any, Ref: any = {}) {
     }
 
     if (!(instance[prop] in data)) {
-      console.info(
-        `${instance[prop]} is not a mapped property for: ${Ref.name}`
-      );
+      // console.info(
+      //   `${instance[prop]} is not a mapped property for: ${Ref.name}`
+      // );
       return;
     }
     data[instance[prop]] = data[instance[prop]] || "";
@@ -33,7 +33,7 @@ export function transform(data: any, Ref: any = {}) {
 
   Object.keys(data).map((prop) => {
     if (!(prop in instance)) {
-      console.info(`${prop} is not a mapped property for: ${Ref.name}`);
+      // console.info(`${prop} is not a mapped property for: ${Ref.name}`);
       return;
     }
     obj[instance[prop]] = data[prop];
