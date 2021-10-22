@@ -8,6 +8,7 @@ import { PatientsApi } from '@shared/models/api';
 import { throwError } from 'rxjs';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
+import { SortDirectionEnum } from '@shared/enums/enums';
 
 @Injectable({
   providedIn: 'root',
@@ -27,12 +28,16 @@ export class PatientApiService {
     this.toastr.success(message, 'Patients');
   }
 
-  getPatientList(pageNumber: number, pageSize: number) {
+  getPatientList(pageNumber: number, pageSize: number, sortBy: string, sortByDirection: SortDirectionEnum) {
+
     let params = new HttpParams();
 
     params = params.append('pageNumber', pageNumber);
     params = params.append('pageSize', pageSize);
-
+    params = params.append('sortBy', sortBy);
+    params = params.append('sortByDirection', sortByDirection);
+    console.log(sortBy)
+    console.log(sortByDirection)
     this.spinner.show();
 
     return this.http.get<PatientsApi>(this.url + '/patient', { params }).pipe(

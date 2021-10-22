@@ -11,6 +11,7 @@ import { PatientPageEnum } from '../../enums/patient';
 import { PatientApiService } from '../../patient-api.service';
 
 import { PatientDeleteComponent } from '../patient-delete/patient-delete.component';
+import { SortDirectionEnum } from '@shared/enums/enums';
 
 @Component({
   selector: 'app-patient-list',
@@ -29,6 +30,8 @@ export class PatientListComponent implements OnInit {
   suggestedPatients$?: Observable<any[]>;
   typeaheadLoading?: boolean;
   typeaheadNoResults?: boolean;
+  sortBy: string = "firstName";
+  sortDirection: SortDirectionEnum = SortDirectionEnum.ASC;
 
   @Input() page: PatientPageEnum = PatientPageEnum.LIST;
 
@@ -37,9 +40,15 @@ export class PatientListComponent implements OnInit {
     this.getPatientList();
   }
 
+  onSort(e: any) {
+    this.sortBy = e.sortBy;
+    this.sortDirection = e.sortDirection;
+    this.getPatientList();
+  }
+
   getPatientList() {
     this.service
-      .getPatientList(this.pageNumber, this.pageSize)
+      .getPatientList(this.pageNumber, this.pageSize, this.sortBy, this.sortDirection)
       .pipe(take(1))
       .subscribe((data) => {
         this.patients = data.items;

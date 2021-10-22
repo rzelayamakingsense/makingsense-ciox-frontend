@@ -46,8 +46,21 @@
   <table class="table table-bordered table-striped table-hover">
     <thead>
       <tr>
-        <th scope="col">First Name</th>
-        <th scope="col">Last Name</th>
+        <th scope="col" class="col-3">
+          <app-sort-link columnName="First Name" [currentSortBy]="sortBy" sortBy="firstName"
+            [sortDirection]="sortDirection" (event)="onSort($event)">
+          </app-sort-link>
+        </th>
+        <th scope="col" class="col-4">
+          <app-sort-link columnName="Last Name" [currentSortBy]="sortBy" sortBy="lastName"
+            [sortDirection]="sortDirection" (event)="onSort($event)">
+          </app-sort-link>
+        </th>
+        <th scope="col" class="col-2">
+          <app-sort-link columnName="BirthDate" [currentSortBy]="sortBy" sortBy="birthDate"
+            [sortDirection]="sortDirection" (event)="onSort($event)">
+          </app-sort-link>
+        </th>
         <th scope="col" class="col-1 text-center"></th>
         <th scope="col" class="col-1 text-center"></th>
         <th scope="col" class="col-1 text-center"></th>
@@ -58,6 +71,7 @@
         <tr>
           <td>{{patient.firstName}}</td>
           <td>{{patient.lastName}}</td>
+          <td>{{patient.birthDate | date:'MM/dd/yyyy'}}</td>
           <td class="text-center">
             <button type="button" class="btn btn-primary" (click)="view(patient)" title="View Patient">
               <i-bs name="eye"></i-bs>
