@@ -1,20 +1,29 @@
-<div class="card">
-    <div class="card-body">
-        <table>
-            <thead>
-                <tr>
-                    <th>Claim</th>
-                    <th>Value</th>
-                </tr>
-            </thead>
-            <tbody>
-                <ng-container *ngFor="let claim of claims">
-                    <tr>
-                        <td>{{claim.name}}</td>
-                        <td id="claim-{{claim.name}}">{{claim.value}}</td>
-                    </tr>
-                </ng-container>
-            </tbody>
-        </table>
+<div class="card mb-3">
+    <div class="card-body p-1 m-1">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb m-1">
+                <li class="breadcrumb-item"><a routerLink="/">Dashboard</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Profile</li>
+            </ol>
+        </nav>
     </div>
+</div>
+
+<div class="card">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Claim</th>
+                <th>Value</th>
+            </tr>
+        </thead>
+        <tbody>
+            <ng-container *ngFor="let claim of claims; let i = index; trackBy: trackByItems">
+                <tr>
+                    <td>{{claim.name}}</td>
+                    <td id="claim-{{claim.name}}">{{claim.value}}</td>
+                </tr>
+            </ng-container>
+        </tbody>
+    </table>
 </div>

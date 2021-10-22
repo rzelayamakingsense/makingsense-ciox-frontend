@@ -110,7 +110,7 @@ export class PatientListComponent implements OnInit {
     this.scrollToTop();
     this.pageNumber = event.page;
     this.router
-      .navigate(['patient/list'], {
+      .navigate(['patient'], {
         queryParams: {
           pageNumber: event.page,
           pageSize: this.route.snapshot.queryParams.pageSize,
@@ -124,7 +124,7 @@ export class PatientListComponent implements OnInit {
   onPageSizeChange() {
     this.scrollToTop();
     this.router
-      .navigate(['patient/list'], {
+      .navigate(['patient'], {
         queryParams: {
           pageNumber: this.route.snapshot.queryParams.pageNumber,
           pageSize: this.pageSize > 100 ? 20 : this.pageSize,
@@ -143,6 +143,10 @@ export class PatientListComponent implements OnInit {
 
   scrollToTop() {
     window.scrollTo(0, 0);
+  }
+
+  trackByItems(index: number, item: any): number {
+    return item.id;
   }
 
   constructor(

@@ -39,4 +39,8 @@ export class ProfileComponent implements OnInit {
     }));
   }
 
+  trackByItems(index: number, item: any): number {
+    return item.name;
+  }
+
 }

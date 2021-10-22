@@ -67,7 +67,7 @@
       </tr>
     </thead>
     <tbody>
-      <ng-container *ngFor="let patient of patients; index as i">
+      <ng-container *ngFor="let patient of patients; let i = index; trackBy: trackByItems">
         <tr>
           <td>{{patient.firstName}}</td>
           <td>{{patient.lastName}}</td>

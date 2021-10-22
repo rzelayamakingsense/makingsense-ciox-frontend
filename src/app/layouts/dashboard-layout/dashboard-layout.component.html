@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg navbar-light mb-4 border-bottom">
     <div class="container">
         <a class="navbar-brand" routerLink="/">
-            <img src="./assets/ciox-health-logo.png" class="header-logo" />
+            <img src="./assets/img/ciox-health-logo.png" class="header-logo" />
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor03"
             aria-controls="navbarColor03" aria-expanded="false" aria-label="Toggle navigation">
@@ -20,7 +20,7 @@
             <div class="dropdown" *ngIf="(authService.authState$ | async)?.isAuthenticated">
                 <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" id="dropdownUser"
                     data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" class="rounded-circle">
+                    <img src="./assets/img/user.jpg" alt="mdo" width="32" height="32">
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end text-small" aria-labelledby="dropdownUser">
                     <li>

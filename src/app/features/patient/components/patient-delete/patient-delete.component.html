@@ -1,4 +1,20 @@
-<div role="document">
+<div class="modal-header text-white bg-primary">
+  <h4 class="modal-title" id="add-modal-label">Delete Patient</h4>
+  <button type="button" class="btn-close close pull-right text-white" aria-label="Close" (click)="onClose()">
+    <span aria-hidden="true" class="visually-hidden">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  Are you sure to delete the patient
+  <strong>{{patient.firstName}} {{patient.lastName}}</strong> ?
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-secondary me-1" data-dismiss="modal" (click)="onClose()">Close</button>
+  <button type="submit" class="btn btn-primary" (click)="delete(patient)">Delete</button>
+</div>
+
+<!-- <div role="document">
   <div>
 
     <div class="modal-header">
@@ -27,4 +43,4 @@
 
     </div>
   </div>
-</div>
+</div> -->

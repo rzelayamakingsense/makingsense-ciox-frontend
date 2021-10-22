@@ -55,7 +55,7 @@ export class PatientDetailComponent implements OnInit {
     this.router.navigateByUrl('/patient/edit/' + this.patient.id);
   }
 
-  onClose() {
+  back() {
     this.router.navigateByUrl('/patient');
   }
 
@@ -109,5 +109,5 @@ export class PatientDetailComponent implements OnInit {
     private router: Router,
     private service: PatientApiService,
     private route: ActivatedRoute,
-  ) {}
+  ) { }
 }
