@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Patient } from '@shared/models/patient';
-import { take, tap } from 'rxjs/operators';
+import { catchError, take, tap } from 'rxjs/operators';
 import { PatientGenderEnum, PatientPageEnum } from '../../enums/patient';
 import { PatientApiService } from '../../patient-api.service';
 
@@ -27,6 +27,11 @@ export class PatientDetailComponent implements OnInit {
     if (this.page == PatientPageEnum.NEW) {
       this.create(this.form.value)
         .pipe(take(1))
+        .pipe(
+          catchError((): any => {
+            this.updating = false;
+          }),
+        )
         .subscribe(() => {
           this.updating = false;
           this.router.navigateByUrl('/patient');
@@ -109,5 +114,5 @@ export class PatientDetailComponent implements OnInit {
     private router: Router,
     private service: PatientApiService,
     private route: ActivatedRoute,
-  ) { }
+  ) {}
 }
