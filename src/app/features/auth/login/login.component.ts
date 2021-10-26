@@ -4,7 +4,7 @@ import { Component, OnInit } from "@angular/core";
 import * as OktaSignIn from "@okta/okta-signin-widget";
 import { OktaAuth } from "@okta/okta-auth-js";
 
-import sampleConfig from "../../../app.config";
+import { Config } from "app/helpers/okta";
 
 const DEFAULT_ORIGINAL_URI = window.location.origin;
 
@@ -14,29 +14,17 @@ const DEFAULT_ORIGINAL_URI = window.location.origin;
   styleUrls: ["./login.component.scss"],
 })
 export class LoginComponent implements OnInit {
-  signIn: any;
+  signIn: OktaSignIn;
 
   constructor(public oktaAuth: OktaAuth) {
     this.signIn = new OktaSignIn({
-      baseUrl: sampleConfig.oidc.issuer.split("/oauth2")[0],
-      clientId: sampleConfig.oidc.clientId,
-      redirectUri: sampleConfig.oidc.redirectUri,
-      logo: "/assets/img/ciox-health-logo.png",
-      i18n: {
-        en: {
-          "primaryauth.title": "Sign in to CIOX Intake",
-        },
-      },
+      baseUrl: Config.oidc.issuer.split("/oauth2")[0],
+      clientId: Config.oidc.clientId,
+      redirectUri: Config.oidc.redirectUri,
+      logo: Config.oidc.logo,
+      i18n: Config.oidc.i18n,
       authParams: {
-        issuer: sampleConfig.oidc.issuer,
-      },
-      helpLinks: {
-        custom: [
-          {
-            text: 'Our website',
-            href: 'https://www.cioxhealth.com/'
-          }
-        ]
+        issuer: Config.oidc.issuer,
       }
     });
   }
@@ -45,10 +33,11 @@ export class LoginComponent implements OnInit {
     this.signIn
       .showSignInToGetTokens({
         el: "#sign-in-widget",
-        scopes: sampleConfig.oidc.scopes,
+        scopes: Config.oidc.scopes,
       })
       .then((tokens: any) => {
         const originalUri = this.oktaAuth.getOriginalUri();
+
         if (originalUri === DEFAULT_ORIGINAL_URI) {
           this.oktaAuth.setOriginalUri("/");
         }

@@ -6,6 +6,12 @@ const Config = {
     issuer: environment.OKTA_ISSUER,
     redirectUri: environment.OKTA_REDIRECT_URI,
     scopes: environment.OKTA_SCOPES,
+    logo: "/assets/img/ciox-health-logo.png",
+    i18n: {
+      en: {
+        "primaryauth.title": "Sign in to CIOX Intake",
+      },
+    },
     testing: {
       disableHttpsCheck: `${environment.OKTA_TESTING_DISABLEHTTPSCHECK}`,
     },
