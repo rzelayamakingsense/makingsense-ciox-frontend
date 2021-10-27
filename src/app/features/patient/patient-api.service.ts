@@ -9,13 +9,15 @@ import { throwError } from 'rxjs';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { SortDirectionEnum } from '@shared/enums/enums';
+import { parseDate } from 'ngx-bootstrap/chronos';
 
 @Injectable({
   providedIn: 'root',
 })
 export class PatientApiService {
-  readonly url = `${environment.host}${environment.api ? '/' + environment.api : ''}${environment.version ? '/' + environment.version : ''
-    }`;
+  readonly url = `${environment.host}${environment.api ? '/' + environment.api : ''}${
+    environment.version ? '/' + environment.version : ''
+  }`;
 
   onError(err: any) {
     this.spinner.hide();
@@ -29,15 +31,14 @@ export class PatientApiService {
   }
 
   getPatientList(pageNumber: number, pageSize: number, sortBy: string, sortByDirection: SortDirectionEnum) {
-
     let params = new HttpParams();
 
     params = params.append('pageNumber', pageNumber);
     params = params.append('pageSize', pageSize);
     params = params.append('sortBy', sortBy);
     params = params.append('sortByDirection', sortByDirection);
-    console.log(sortBy)
-    console.log(sortByDirection)
+    console.log(sortBy);
+    console.log(sortByDirection);
     this.spinner.show();
 
     return this.http.get<PatientsApi>(this.url + '/patient', { params }).pipe(
@@ -60,15 +61,14 @@ export class PatientApiService {
   }
 
   getPatientAutocomplete(query: string) {
-
     let params = new HttpParams();
 
     params = params.append('query', query);
     // TODO: we need autocomplete api method. We are using patient (getAll) method temporarily
     // we need something like: return this.http.get<PatientsApi>(this.url + "/patient/autocomplete", { params })
-    return this.http.get<PatientsApi>(this.url + "/patient", { params }).pipe(
+    return this.http.get<PatientsApi>(this.url + '/patient', { params }).pipe(
       map((data: any) => data.items || []),
-      catchError((err) => this.onError(err))
+      catchError((err) => this.onError(err)),
     );
   }
 
@@ -89,15 +89,28 @@ export class PatientApiService {
 
       // // data.totalResults = item.totalResults; // TODO: uncomment line -> CIOX-51
       // data.totalResults = 50; // TODO: remove line -> CIOX-51
-      map((item) => Patient.new(item)),
+      map((item) => {
+        const patient = Patient.new(item);
+        patient.birthDate = parseDate(patient.birthDate);
+        patient.gender = Number(patient.gender);
+        return patient;
+      }),
       tap(() => this.spinner.hide()),
       catchError((err) => this.onError(err)),
     );
   }
 
+  transformPatient(patient: Patient) {
+    patient.isActive = Boolean(patient.isActive);
+    patient.gender = Number(patient.gender);
+    patient.birthDate = patient.birthDate.toISOString();
+    return patient;
+  }
+
   createPatient(item: Patient) {
     this.spinner.show();
-    return this.http.post(this.url + '/patient', item).pipe(
+
+    return this.http.post(this.url + '/patient', this.transformPatient(item)).pipe(
       map((data) => Patient.new(data)),
       tap(() => this.onSuccess('Patient created successfully')),
       catchError((err) => this.onError(err)),
@@ -106,7 +119,7 @@ export class PatientApiService {
 
   updatePatient(item: Patient) {
     this.spinner.show();
-    return this.http.put(this.url + '/patient/' + item.id, Patient.transform(item)).pipe(
+    return this.http.put(this.url + '/patient/' + item.id, this.transformPatient(item)).pipe(
       map((item) => Patient.new(item)),
       tap(() => this.onSuccess('Patient updated successfully')),
       catchError((err) => this.onError(err)),
@@ -121,5 +134,5 @@ export class PatientApiService {
     );
   }
 
-  constructor(private http: HttpClient, private spinner: NgxSpinnerService, private toastr: ToastrService) { }
+  constructor(private http: HttpClient, private spinner: NgxSpinnerService, private toastr: ToastrService) {}
 }

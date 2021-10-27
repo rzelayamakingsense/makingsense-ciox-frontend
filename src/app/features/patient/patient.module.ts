@@ -38,4 +38,4 @@ import { PatientApiService } from './patient-api.service';
     },
   ],
 })
-export class PatientModule { }
+export class PatientModule {}

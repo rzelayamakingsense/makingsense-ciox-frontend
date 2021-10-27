@@ -1,6 +1,7 @@
-import { base, transform } from "./base";
+import { parseDate } from '@helpers/lang';
+import { base, transform } from './base';
 
-import { Patient } from "./patient";
+import { Patient } from './patient';
 
 export class PatientsApi {
   items: Patient[] = [];
@@ -19,7 +20,12 @@ export class PatientsApi {
         pageNumber,
         pageSize,
         totalResults,
-        items: items.map((item: any) => Patient.new(item)),
+        items: items.map((item: any) => {
+          const patient = Patient.new(item);
+          patient.birthDate = parseDate(patient.birthDate);
+          patient.gender = Number(patient.gender);
+          return patient;
+        }),
       },
     };
   }

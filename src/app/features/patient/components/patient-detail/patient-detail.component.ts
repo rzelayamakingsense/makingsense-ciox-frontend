@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Patient } from '@shared/models/patient';
+import { dateValidator } from '@shared/validators/date';
 import { catchError, take, tap } from 'rxjs/operators';
 import { PatientGenderEnum, PatientPageEnum } from '../../enums/patient';
 import { PatientApiService } from '../../patient-api.service';
