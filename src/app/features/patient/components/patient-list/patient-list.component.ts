@@ -54,8 +54,7 @@ export class PatientListComponent implements OnInit {
         this.patients = data.items;
         this.pageNumber = data.pageNumber;
         this.pageSize = data.pageSize;
-        // this.totalResults = data.totalResults; //TODO: uncomment this -> CIOX-51 task
-        this.totalResults = 50; //TODO: to be removed -> CIOX-51 task
+        this.totalResults = data.totalResults;
       });
   }
 
@@ -126,8 +125,8 @@ export class PatientListComponent implements OnInit {
     this.router
       .navigate(['patient'], {
         queryParams: {
-          pageNumber: this.route.snapshot.queryParams.pageNumber,
-          pageSize: this.pageSize > 100 ? 20 : this.pageSize,
+          pageNumber: 1,
+          pageSize: this.pageSize,
         },
       })
       .then(() => {

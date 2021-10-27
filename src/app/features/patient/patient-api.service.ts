@@ -42,15 +42,9 @@ export class PatientApiService {
     return this.http.get<PatientsApi>(this.url + '/patient', { params }).pipe(
       map((item) => {
         var data = PatientsApi.new(item);
-
         data.pageNumber = item.pageNumber;
-
-        // data.pageSize = item.pageSize; // TODO: uncomment line -> CIOX-51
-        data.pageSize = pageSize; // TODO: remove line -> CIOX-51
-
-        // data.totalResults = item.totalResults; // TODO: uncomment line -> CIOX-51
-        data.totalResults = 50; // TODO: remove line -> CIOX-51
-
+        data.pageSize = item.pageSize;
+        data.totalResults = item.totalResults;
         return data;
       }),
       tap(() => this.spinner.hide()),
