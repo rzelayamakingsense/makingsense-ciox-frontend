@@ -1,9 +1,9 @@
 <a (click)="onSort()" title="Sort by {{columnName}}">
     {{columnName}}
-    <span *ngIf="sortDirection=='ASC' && (sortBy==currentSortBy)">
+    <span *ngIf="isAscending">
         ▲
     </span>
-    <span *ngIf="sortDirection=='DESC' && (sortBy==currentSortBy)">
+    <span *ngIf="isDescending">
         ▼
     </span>
 </a>

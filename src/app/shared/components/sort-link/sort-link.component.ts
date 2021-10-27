@@ -42,6 +42,14 @@ export class SortLinkComponent implements OnInit {
 
   }
 
+  get isAscending() {
+    return this.sortDirection == 1 && (this.sortBy == this.currentSortBy);
+  }
+
+  get isDescending() {
+    return this.sortDirection == 2 && (this.sortBy == this.currentSortBy);
+  }
+
   constructor() { }
 
 }

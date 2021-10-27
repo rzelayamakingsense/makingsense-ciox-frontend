@@ -15,9 +15,8 @@ import { parseDate } from 'ngx-bootstrap/chronos';
   providedIn: 'root',
 })
 export class PatientApiService {
-  readonly url = `${environment.host}${environment.api ? '/' + environment.api : ''}${
-    environment.version ? '/' + environment.version : ''
-  }`;
+  readonly url = `${environment.host}${environment.api ? '/' + environment.api : ''}${environment.version ? '/' + environment.version : ''
+    }`;
 
   onError(err: any) {
     this.spinner.hide();
@@ -35,10 +34,9 @@ export class PatientApiService {
 
     params = params.append('pageNumber', pageNumber);
     params = params.append('pageSize', pageSize);
-    params = params.append('sortBy', sortBy);
-    params = params.append('sortByDirection', sortByDirection);
-    console.log(sortBy);
-    console.log(sortByDirection);
+    params = params.append('sortingName', sortBy);
+    params = params.append('sortType', sortByDirection);
+
     this.spinner.show();
 
     return this.http.get<PatientsApi>(this.url + '/patient', { params }).pipe(
@@ -134,5 +132,5 @@ export class PatientApiService {
     );
   }
 
-  constructor(private http: HttpClient, private spinner: NgxSpinnerService, private toastr: ToastrService) {}
+  constructor(private http: HttpClient, private spinner: NgxSpinnerService, private toastr: ToastrService) { }
 }
