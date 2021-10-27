@@ -102,11 +102,11 @@ export class PatientDetailComponent implements OnInit {
   ngOnInit(): void {
     this.form = this.fb.group({
       id: [''],
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required],
-      isActive: [false],
-      birthDate: [''],
-      gender: [''],
+      firstName: ['', Validators.compose([Validators.required, Validators.maxLength(255)])],
+      lastName: ['', Validators.compose([Validators.maxLength(255)])],
+      gender: [],
+      birthDate: ['', Validators.compose([Validators.required, dateValidator])],
+      isActive: [],
     });
   }
 
