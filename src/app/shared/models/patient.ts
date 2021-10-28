@@ -7,6 +7,7 @@ export class Patient {
   isActive: any = "isActive";
   birthDate: any = "birthDate";
   gender: any = "gender";
+  credentialNumber: any = "credentialNumber";
 
   static new(data: any = {}): Patient {
     return Object.assign({}, base(data, this));

@@ -9,7 +9,7 @@ import { ModalModule, BsModalService } from 'ngx-bootstrap/modal';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
 import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { NgxBootstrapIconsModule } from 'ngx-bootstrap-icons';
-import { pencilSquare, trash, xLg, eye, search } from 'ngx-bootstrap-icons';
+import { pencilSquare, trash, xLg, eye, search, plusSquare } from 'ngx-bootstrap-icons';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 
 import { PatientRoutingModule } from './patient-routing.module';
@@ -25,7 +25,7 @@ import { PatientApiService } from './patient-api.service';
     TypeaheadModule.forRoot(),
     PaginationModule.forRoot(),
     ModalModule.forRoot(),
-    NgxBootstrapIconsModule.pick({ pencilSquare, trash, xLg, eye, search }),
+    NgxBootstrapIconsModule.pick({ pencilSquare, trash, xLg, eye, search, plusSquare }),
     BsDatepickerModule.forRoot(),
   ],
   providers: [

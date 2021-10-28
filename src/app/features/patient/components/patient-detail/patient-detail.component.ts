@@ -107,6 +107,7 @@ export class PatientDetailComponent implements OnInit {
       gender: [],
       birthDate: ['', Validators.compose([Validators.required, dateValidator])],
       isActive: [],
+      credentialNumber: ['', Validators.compose([Validators.required])],
     });
   }
 
@@ -115,5 +116,5 @@ export class PatientDetailComponent implements OnInit {
     private router: Router,
     private service: PatientApiService,
     private route: ActivatedRoute,
-  ) {}
+  ) { }
 }
